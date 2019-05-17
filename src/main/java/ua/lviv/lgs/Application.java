@@ -1,9 +1,12 @@
-package ua.lviv.lgs.model;
+package ua.lviv.lgs;
 
 import java.util.Set;
 
 import org.hibernate.Session;
 import org.hibernate.cfg.Configuration;
+
+import ua.lviv.lgs.model.Cart;
+import ua.lviv.lgs.model.Item;
 
 public class Application {
 
