@@ -1,4 +1,4 @@
-package hw14.models;
+package ua.lviv.lgs.model;
 
 import java.util.HashSet;
 import java.util.Set;
