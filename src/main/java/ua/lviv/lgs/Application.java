@@ -19,11 +19,11 @@ public class Application {
 		session.beginTransaction();
 
 		for (int i = 0; i <= 4; i++) {
-			Cart cartObj = new Cart();
-			cartObj.setName("Editor " + i);
-			cartObj.setTotal(i);
+			Cart cart = new Cart();
+			cart.setName("Editor " + i);
+			cart.setTotal(i);
 
-			Set<Item> items = cartObj.getItems();
+			Set<Item> items = cart.getItems();
 
 			for (int j = 0; j < 4; j++) {
 				Item item = new Item();
@@ -33,15 +33,14 @@ public class Application {
 				items.add(item);
 			}
 
-			cartObj.setItems(items);
+			cart.setItems(items);
 
-			session.save(cartObj);
+			session.save(cart);
 		}
 
 		System.out.println("\n.......Records Saved Successfully To The Database.......\n");
 
 		session.getTransaction().commit();
-
 		session.close();
 	}
 

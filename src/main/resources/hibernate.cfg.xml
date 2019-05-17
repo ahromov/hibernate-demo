@@ -7,9 +7,10 @@
 		<property name="hibernate.connection.password">root</property>
 		<property name="hibernate.connection.url">jdbc:mysql://127.0.0.1:3306/hibernate-demo?serverTimezone=UTC</property>
 		<property name="hibernate.connection.username">toor</property>
-		<property name="hibernate.hbm2ddl.auto">create</property>
+		<property name="hibernate.hbm2ddl.auto">update</property>
+		<property name="hibernate."></property>
 		<property name="hibernate.show_sql">true</property>
-		<mapping class="hw14.models.Cart" />
-		<mapping class="hw14.models.Item" />
+		<mapping class="ua.lviv.lgs.model.Cart" />
+		<mapping class="ua.lviv.lgs.model.Item" />
 	</session-factory>
 </hibernate-configuration>

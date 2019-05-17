@@ -3,7 +3,6 @@ package ua.lviv.lgs.model;
 import java.util.HashSet;
 import java.util.Set;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -30,6 +29,9 @@ public class Item {
 
 	@ManyToMany(mappedBy = "items")
 	private Set<Cart> carts = new HashSet<Cart>();
+
+	public Item() {
+	}
 
 	public Integer getId() {
 		return id;
