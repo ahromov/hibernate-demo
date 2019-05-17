@@ -10,13 +10,13 @@ import ua.lviv.lgs.model.Item;
 
 public class Application {
 
-	static Session sessionObj;
+	static Session session;
 
 	public static void main(String[] args) {
 		Configuration configuration = new Configuration().configure();
-		sessionObj = configuration.buildSessionFactory().openSession();
+		session = configuration.buildSessionFactory().openSession();
 		
-		sessionObj.beginTransaction();
+		session.beginTransaction();
 
 		for (int i = 0; i <= 4; i++) {
 			Cart cartObj = new Cart();
@@ -35,14 +35,14 @@ public class Application {
 
 			cartObj.setItems(items);
 
-			sessionObj.save(cartObj);
+			session.save(cartObj);
 		}
 
 		System.out.println("\n.......Records Saved Successfully To The Database.......\n");
 
-		sessionObj.getTransaction().commit();
+		session.getTransaction().commit();
 
-		sessionObj.close();
+		session.close();
 	}
 
 }
