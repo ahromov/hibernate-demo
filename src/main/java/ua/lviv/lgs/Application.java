@@ -13,8 +13,8 @@ public class Application {
 	static Session sessionObj;
 
 	public static void main(String[] args) {
-		Configuration configObj = new Configuration().configure();
-		sessionObj = configObj.buildSessionFactory().openSession();
+		Configuration configuration = new Configuration().configure();
+		sessionObj = configuration.buildSessionFactory().openSession();
 		
 		sessionObj.beginTransaction();
 
