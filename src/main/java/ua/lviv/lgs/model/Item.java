@@ -1,13 +1,12 @@
 package ua.lviv.lgs.model;
 
-import java.util.HashSet;
-import java.util.Set;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.ManyToMany;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 @Entity
@@ -15,22 +14,23 @@ import javax.persistence.Table;
 public class Item {
 
 	@Id
-	@GeneratedValue
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
-
-	@Column
-	private Integer itemId;
-
-	@Column
-	private Integer itemTotal;
 
 	@Column
 	private Integer quantity;
 
-	@ManyToMany(mappedBy = "items")
-	private Set<Cart> carts = new HashSet<Cart>();
+	@ManyToOne
+	@JoinColumn(name = "cart_id")
+	private Cart cart;
 
 	public Item() {
+	}
+
+	public Item(int quantity, Cart cart) {
+		super();
+		this.quantity = quantity;
+		this.cart = cart;
 	}
 
 	public Integer getId() {
@@ -41,36 +41,12 @@ public class Item {
 		this.id = id;
 	}
 
-	public Integer getItemId() {
-		return itemId;
+	public Cart getCart() {
+		return cart;
 	}
 
-	public void setItemId(Integer itemId) {
-		this.itemId = itemId;
-	}
-
-	public Integer getItemTotal() {
-		return itemTotal;
-	}
-
-	public void setItemTotal(Integer itemTotal) {
-		this.itemTotal = itemTotal;
-	}
-
-	public Integer getQuantity() {
-		return quantity;
-	}
-
-	public void setQuantity(Integer quantity) {
-		this.quantity = quantity;
-	}
-
-	public Set<Cart> getCarts() {
-		return carts;
-	}
-
-	public void setCarts(Set<Cart> carts) {
-		this.carts = carts;
+	public void setCart(Cart cart) {
+		this.cart = cart;
 	}
 
 }

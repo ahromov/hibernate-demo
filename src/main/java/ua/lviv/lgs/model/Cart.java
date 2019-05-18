@@ -1,16 +1,14 @@
 package ua.lviv.lgs.model;
 
-import java.util.HashSet;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
-import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 @Entity
@@ -18,21 +16,22 @@ import javax.persistence.Table;
 public class Cart {
 
 	@Id
-	@GeneratedValue
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
-
-	@Column
-	private Integer total;
 
 	@Column
 	private String name;
 
+	@OneToMany(mappedBy = "cart", cascade = CascadeType.ALL)
+	private Set<Item> items;
+
 	public Cart() {
 	}
 
-	@ManyToMany(cascade = CascadeType.ALL)
-	@JoinTable(name = "carts_items", joinColumns = @JoinColumn(name = "cart_id", referencedColumnName = "id"), inverseJoinColumns = @JoinColumn(name = "item_id", referencedColumnName = "id"))
-	private Set<Item> items = new HashSet<Item>();
+	public Cart(String name) {
+		super();
+		this.name = name;
+	}
 
 	public Integer getId() {
 		return id;
@@ -40,14 +39,6 @@ public class Cart {
 
 	public void setId(Integer id) {
 		this.id = id;
-	}
-
-	public Integer getTotal() {
-		return total;
-	}
-
-	public void setTotal(Integer total) {
-		this.total = total;
 	}
 
 	public String getName() {
