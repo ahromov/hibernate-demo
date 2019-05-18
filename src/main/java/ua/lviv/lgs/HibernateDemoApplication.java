@@ -6,7 +6,7 @@ import org.hibernate.cfg.Configuration;
 import ua.lviv.lgs.model.Cart;
 import ua.lviv.lgs.model.Item;
 
-public class Application {
+public class HibernateDemoApplication {
 
 	private static Session session;
 
