@@ -11,13 +11,14 @@ import javax.persistence.*;
 public class Note {
 
     @Id
-    @Column(name = "id", nullable = false)
+    @Column(name = "id")
     @GeneratedValue
     private Long id;
 
     @Column(name = "text")
     private String text;
 
-    @ManyToOne
+    @ManyToOne(optional = false)
+    @JoinColumn(name = "person_id", foreignKey = @ForeignKey(name = "notes_persons_fk"))
     private Person person;
 }

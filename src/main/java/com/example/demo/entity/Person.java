@@ -3,8 +3,8 @@ package com.example.demo.entity;
 import lombok.*;
 
 import javax.persistence.*;
-import java.util.LinkedHashSet;
-import java.util.Set;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @NoArgsConstructor
@@ -13,15 +13,15 @@ import java.util.Set;
 public class Person {
 
     @Id
-    @Column(name = "id", nullable = false)
+    @Column(name = "id")
     @GeneratedValue
     private Long id;
 
     @Column(name = "first_name")
     private String name;
 
-    @OneToMany(mappedBy = "person", cascade = {CascadeType.PERSIST, CascadeType.REMOVE})
-    private Set<Note> noteList = new LinkedHashSet<>();
+    @OneToMany(mappedBy = "person", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    private List<Note> noteList = new ArrayList<>();
 
     public void addNote(Note note) {
         note.setPerson(this);
