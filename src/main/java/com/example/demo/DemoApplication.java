@@ -1,5 +1,7 @@
 package com.example.demo;
 
+import com.example.demo.dto.NoteDto;
+import com.example.demo.dto.PersonDto;
 import com.example.demo.entity.Note;
 import com.example.demo.entity.Person;
 import com.example.demo.persistence.Repository;
@@ -10,9 +12,9 @@ import org.springframework.context.ConfigurableApplicationContext;
 
 import java.util.List;
 import java.util.Locale;
-import java.util.function.Consumer;
 
-import static com.example.demo.utils.EntityGenerator.*;
+import static com.example.demo.utils.EntityGenerator.generateNoteForPerson;
+import static com.example.demo.utils.EntityGenerator.generatePersonWithNote;
 
 
 @SpringBootApplication
@@ -26,6 +28,7 @@ public class DemoApplication {
 
         log("generatePersonWithNote();");
         Person person = generatePersonWithNote();
+
         log("repository.persist(person);");
         repository.persist(person);
 
@@ -35,22 +38,33 @@ public class DemoApplication {
 
         log("generateNoteForPerson(persistedPerson);");
         Note note = generateNoteForPerson(persistedPerson);
+
         log("repository.update(Person.class, 1, addNoteToPerson(note));");
-        Person updatedPerson = repository.update(Person.class, 1, addNoteToPerson(note));
+        Person person1 = repository.findById(Person.class, 1);
+        person1.addNote(note);
+        Person updatedPerson = repository.update(person1);
         System.out.println(updatedPerson);
 
         log("repository.findAll(Person.class);");
         List<Person> allPersons = repository.findAll(Person.class);
         allPersons.forEach(System.out::println);
 
+        log("repository.findAll(Note.class);");
+        List<Note> allNotes = repository.findAll(Note.class);
+        allNotes.forEach(System.out::println);
+
+        log("repository.findAllDtos(Class<T> t, Class<I> i); by Person");
+        List<PersonDto> allPersonDtos = repository.findAllDtos(Person.class, PersonDto.class);
+        allPersonDtos.forEach(System.out::println);
+
+        log("repository.findAllDtos(Class<T> t, Class<I> i); by Note");
+        List<NoteDto> allNoteDtos = repository.findAllDtos(Note.class, NoteDto.class);
+        allNoteDtos.forEach(System.out::println);
+
         repository.deleteById(Person.class, 1);
     }
 
-    private static Consumer<Person> addNoteToPerson(Note note) {
-        return p -> p.getNoteList().add(note);
-    }
-
     private static void log(String s) {
-        log.info(s.toUpperCase(Locale.ROOT));
+        log.info("\n\n" + s.toUpperCase(Locale.ROOT));
     }
 }

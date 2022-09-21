@@ -1,23 +1,20 @@
 package com.example.demo.persistence.impl;
 
 import com.example.demo.persistence.Repository;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import java.util.List;
-import java.util.function.Consumer;
 import java.util.function.Function;
 
 
 @Component
+@RequiredArgsConstructor
 public class CommonRepository implements Repository {
 
     private final EntityManagerFactory sessionFactory;
-
-    public CommonRepository(EntityManagerFactory sessionFactory) {
-        this.sessionFactory = sessionFactory;
-    }
 
     @Override
     public <T> void persist(T entity) {
@@ -33,21 +30,9 @@ public class CommonRepository implements Repository {
     }
 
     @Override
-    public <T> void update(T entity) {
-        doInsession(entityManager -> {
-            T merged = entityManager.merge(entity);
-            entityManager.flush();
-            return merged;
-        });
-    }
-
-    @Override
-    public <T> T update(Class<T> clazz, long id, Consumer<T> function) {
-        return doInsession(entityManager -> {
-            T finded = entityManager.find(clazz, id);
-            function.accept(finded);
-            return finded;
-        });
+    public <T> T update(T entity) {
+        doInsession(entityManager -> entityManager.merge(entity));
+        return entity;
     }
 
     @Override
@@ -73,5 +58,11 @@ public class CommonRepository implements Repository {
         entityManager.getTransaction().commit();
         entityManager.close();
         return apply;
+    }
+
+    public <T, I> List<I> findAllDtos(Class<T> entityType, Class<I> dtoType) {
+        return doInsession(entityManager ->
+                entityManager.createQuery("select new " + dtoType.getName() + "(t) from " + entityType.getSimpleName() + " t")
+                        .getResultList());
     }
 }

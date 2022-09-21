@@ -7,7 +7,7 @@ import javax.persistence.*;
 @Entity
 @NoArgsConstructor
 @Getter @Setter
-@ToString(exclude = "person")
+@ToString
 public class Note {
 
     @Id
@@ -20,5 +20,6 @@ public class Note {
 
     @ManyToOne(optional = false)
     @JoinColumn(name = "person_id", foreignKey = @ForeignKey(name = "notes_persons_fk"))
+    @ToString.Exclude
     private Person person;
 }
